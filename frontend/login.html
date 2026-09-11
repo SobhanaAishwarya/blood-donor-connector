@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Sign in to Blood Donor Connector." />
+  <meta name="color-scheme" content="light dark" />
+  <title>Sign in · Blood Donor Connector</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2S5 10 5 15a7 7 0 0 0 14 0C19 10 12 2 12 2Z' fill='%23c2132c'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <div class="auth-wrap">
+    <aside class="auth-aside">
+      <a class="brand" href="/index.html" style="color:#fff">
+        <span class="brand__mark" id="brandMark"></span>
+        <span>Blood Donor Connector</span>
+      </a>
+      <div>
+        <h2>Only contact donors who can donate today.</h2>
+        <p>Nearest first. Privacy protected. Every step.</p>
+        <div class="auth-aside__points" id="asidePoints"></div>
+      </div>
+      <small style="color:rgba(255,255,255,0.55)">Right donor. Right place. Right time.</small>
+    </aside>
+
+    <main class="auth-panel">
+      <div class="auth-card card">
+        <h1>Welcome back</h1>
+        <p style="margin-bottom:var(--sp-6)">Sign in to continue.</p>
+
+        <form id="loginForm" class="stack" novalidate>
+          <div class="field">
+            <label for="email">Email</label>
+            <input class="input" id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input class="input" id="password" name="password" type="password" autocomplete="current-password" placeholder="Your password" required />
+          </div>
+          <button class="btn btn--primary btn--block btn--lg" type="submit" id="submitBtn">Sign in</button>
+        </form>
+
+        <p class="text-center soft" style="margin-top:var(--sp-5)">
+          New here? <a class="link" href="/register.html">Create an account</a>
+        </p>
+
+        <div class="card card--flat" style="margin-top:var(--sp-6);background:var(--surface-2)">
+          <b style="font-size:var(--fs-sm)">Demo accounts</b>
+          <p style="font-size:var(--fs-xs);margin-top:6px">Password for all: <span class="kbd">Passw0rd!</span></p>
+          <div class="pill-row" style="margin-top:10px" id="demoPills"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/icons.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/login.js"></script>
+</body>
+</html>

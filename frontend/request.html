@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Blood Request · Blood Donor Connector</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2S5 10 5 15a7 7 0 0 0 14 0C19 10 12 2 12 2Z' fill='%23c2132c'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <header class="nav" id="nav"></header>
+
+  <main class="app-main">
+    <div class="container">
+
+      <!-- CREATE -->
+      <section id="createView" class="hide">
+        <div class="wizard" style="max-width:720px">
+          <div class="page-head text-center">
+            <span class="eyebrow" style="justify-content:center">Emergency request</span>
+            <h1>Someone needs blood.</h1>
+            <p>Give us the details — we'll reach the nearest eligible donors first.</p>
+          </div>
+
+          <form id="reqForm" class="card card--pad-lg stack" novalidate>
+            <div class="field">
+              <label>Urgency</label>
+              <div class="choice-grid" style="grid-template-columns:repeat(3,1fr);gap:10px" id="urgencyPicker"></div>
+            </div>
+
+            <div class="grid grid-2" style="gap:var(--sp-4)">
+              <div class="field">
+                <label for="f-group">Blood group needed</label>
+                <select class="select" id="f-group" name="blood_group" required>
+                  <option value="">Select…</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-units">Units required</label>
+                <input class="input" id="f-units" name="units" type="number" min="1" max="20" value="1" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="f-hospital">Patient / hospital name</label>
+              <input class="input" id="f-hospital" name="hospital" placeholder="King George Hospital" required />
+            </div>
+
+            <div class="grid grid-2" style="gap:var(--sp-4)">
+              <div class="field">
+                <label for="f-city">City</label>
+                <input class="input" id="f-city" name="city" list="cityList" placeholder="Visakhapatnam" required />
+                <datalist id="cityList"></datalist>
+              </div>
+              <div class="field">
+                <label for="f-location">Area / locality</label>
+                <input class="input" id="f-location" name="location" placeholder="Maharani Peta" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="f-required">Required by <span class="muted">(optional)</span></label>
+              <input class="input" id="f-required" name="required_by" type="datetime-local" />
+            </div>
+
+            <div class="field">
+              <label for="f-msg">Additional message <span class="muted">(optional)</span></label>
+              <textarea class="input" id="f-msg" name="additional_message" placeholder="Any context that helps a donor decide quickly."></textarea>
+            </div>
+
+            <div id="critNote" class="hide">
+              <div class="card card--flat" style="background:var(--crimson-100);border:1px solid var(--crimson-300)">
+                <b style="color:var(--crimson-800)">Critical request</b>
+                <p style="color:var(--crimson-800);margin-top:4px">Ring 1 donors are contacted immediately. Use this only for genuine emergencies.</p>
+              </div>
+            </div>
+
+            <button class="btn btn--primary btn--lg btn--block" type="submit" id="reqSubmit">Start matching</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- TRACK -->
+      <section id="trackView" class="hide">
+        <a class="link" href="/requests.html" style="display:inline-block;margin-bottom:var(--sp-4)">← All requests</a>
+        <div id="trackBody"></div>
+      </section>
+
+      <!-- DONOR MATCH VIEW -->
+      <section id="donorMatchView" class="hide">
+        <a class="link" href="/dashboard.html" style="display:inline-block;margin-bottom:var(--sp-4)">← Dashboard</a>
+        <div id="donorMatchBody"></div>
+      </section>
+
+      <div id="loading" class="stack" style="max-width:720px;margin-inline:auto">
+        <div class="skeleton skeleton--title"></div>
+        <div class="skeleton skeleton--card"></div>
+        <div class="skeleton skeleton--card"></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/icons.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/ringmap.js"></script>
+  <script src="/js/request.js"></script>
+</body>
+</html>

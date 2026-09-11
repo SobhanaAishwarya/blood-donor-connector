@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Join Blood Donor Connector as a donor or a requester." />
+  <meta name="color-scheme" content="light dark" />
+  <title>Create your account · Blood Donor Connector</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2S5 10 5 15a7 7 0 0 0 14 0C19 10 12 2 12 2Z' fill='%23c2132c'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <header class="nav" id="nav"></header>
+
+  <main class="app-main">
+    <div class="container wizard">
+
+      <!-- ROLE CHOICE -->
+      <section id="roleStep" class="stack-lg">
+        <header class="text-center stack">
+          <span class="eyebrow">Create your account</span>
+          <h1>How would you like to help?</h1>
+          <p>You can always create the other kind of account later.</p>
+        </header>
+        <div class="choice-grid" style="grid-template-columns:1fr 1fr;gap:var(--sp-4)">
+          <label class="choice">
+            <input type="radio" name="role" value="donor" />
+            <span class="choice__mark"></span>
+            <span>
+              <span class="choice__title">Donate blood</span>
+              <span class="choice__desc">Get contacted only when you're eligible and a nearby match needs you.</span>
+            </span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="role" value="requester" />
+            <span class="choice__mark"></span>
+            <span>
+              <span class="choice__title">Request blood</span>
+              <span class="choice__desc">Raise an emergency request and track the matching in real time.</span>
+            </span>
+          </label>
+        </div>
+        <button class="btn btn--primary btn--lg btn--block" id="roleNext" disabled>Continue</button>
+        <p class="text-center soft">Already have an account? <a class="link" href="/login.html">Sign in</a></p>
+      </section>
+
+      <!-- REQUESTER FORM -->
+      <section id="requesterStep" class="hide">
+        <button class="link" id="reqBack" style="margin-bottom:var(--sp-4)">← Back</button>
+        <div class="card card--pad-lg">
+          <h1 style="font-size:var(--fs-2xl)">Requester account</h1>
+          <p style="margin-bottom:var(--sp-6)">Just the essentials — you'll add request details next.</p>
+          <form id="requesterForm" class="stack" novalidate>
+            <div class="field">
+              <label for="rq-name">Full name</label>
+              <input class="input" id="rq-name" name="name" autocomplete="name" placeholder="Priya Nair" required />
+            </div>
+            <div class="grid grid-2" style="gap:var(--sp-4)">
+              <div class="field">
+                <label for="rq-email">Email</label>
+                <input class="input" id="rq-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+              </div>
+              <div class="field">
+                <label for="rq-phone">Mobile number</label>
+                <input class="input" id="rq-phone" name="phone" inputmode="tel" placeholder="10-digit mobile" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="rq-password">Password</label>
+              <input class="input" id="rq-password" name="password" type="password" autocomplete="new-password" placeholder="At least 8 chars, 1 letter + 1 number" required />
+              <span class="hint">We hash passwords with a salted algorithm — never stored in plain text.</span>
+            </div>
+            <button class="btn btn--primary btn--lg btn--block" type="submit" id="rqSubmit">Create account</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- DONOR WIZARD -->
+      <section id="donorStep" class="hide">
+        <button class="link" id="donorBack" style="margin-bottom:var(--sp-4)">← Back</button>
+
+        <div class="stepper" id="stepper"></div>
+
+        <form id="donorForm" novalidate>
+          <!-- 1 About you -->
+          <div class="wizard__panel card card--pad-lg" data-panel="1">
+            <h2>About you</h2>
+            <p style="margin-bottom:var(--sp-5)">Step 01 — your basic details.</p>
+            <div class="stack">
+              <div class="field">
+                <label for="d-name">Full name</label>
+                <input class="input" id="d-name" name="name" autocomplete="name" placeholder="Aishwarya Menon" />
+              </div>
+              <div class="grid grid-2" style="gap:var(--sp-4)">
+                <div class="field">
+                  <label for="d-email">Email</label>
+                  <input class="input" id="d-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
+                </div>
+                <div class="field">
+                  <label for="d-phone">Mobile number</label>
+                  <input class="input" id="d-phone" name="phone" inputmode="tel" placeholder="10-digit mobile" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="d-password">Password</label>
+                <input class="input" id="d-password" name="password" type="password" autocomplete="new-password" placeholder="At least 8 chars, 1 letter + 1 number" />
+              </div>
+            </div>
+          </div>
+
+          <!-- 2 Blood -->
+          <div class="wizard__panel card card--pad-lg hide" data-panel="2">
+            <h2>Blood information</h2>
+            <p style="margin-bottom:var(--sp-5)">Step 02 — used to calculate your eligibility.</p>
+            <div class="stack">
+              <div class="field">
+                <label>Blood group</label>
+                <div class="pill-row" id="groupPicker"></div>
+                <input type="hidden" name="blood_group" />
+              </div>
+              <div class="field">
+                <label>Sex</label>
+                <div class="choice-grid" style="grid-template-columns:repeat(3,1fr);gap:10px" id="genderPicker">
+                  <label class="choice" style="padding:12px"><input type="radio" name="gender" value="female" /><span class="choice__mark"></span><span class="choice__title">Female</span></label>
+                  <label class="choice" style="padding:12px"><input type="radio" name="gender" value="male" /><span class="choice__mark"></span><span class="choice__title">Male</span></label>
+                  <label class="choice" style="padding:12px"><input type="radio" name="gender" value="other" /><span class="choice__mark"></span><span class="choice__title">Other</span></label>
+                </div>
+                <span class="hint">Project rule: 90 days between donations for men, 120 days for women.</span>
+              </div>
+              <div class="field">
+                <label for="d-last">Last donation date <span class="muted">(optional)</span></label>
+                <input class="input" id="d-last" name="last_donation_date" type="date" />
+                <span class="hint">Leave blank if you've never donated or don't remember.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 Location -->
+          <div class="wizard__panel card card--pad-lg hide" data-panel="3">
+            <h2>Location</h2>
+            <p style="margin-bottom:var(--sp-5)">Step 03 — so we can measure distance to requests.</p>
+            <div class="stack">
+              <div class="field">
+                <label for="d-city">City</label>
+                <input class="input" id="d-city" name="city" list="cityList" placeholder="Visakhapatnam" />
+                <datalist id="cityList"></datalist>
+              </div>
+              <div class="field">
+                <label for="d-locality">Area / locality</label>
+                <input class="input" id="d-locality" name="locality" placeholder="MVP Colony" />
+                <span class="hint">Only an approximate distance is ever shown to requesters.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 Availability -->
+          <div class="wizard__panel card card--pad-lg hide" data-panel="4">
+            <h2>Availability</h2>
+            <p style="margin-bottom:var(--sp-5)">Step 04 — you can change this any time from your dashboard.</p>
+            <div class="choice-grid" style="grid-template-columns:1fr 1fr;gap:var(--sp-4)">
+              <label class="choice">
+                <input type="radio" name="available" value="true" checked />
+                <span class="choice__mark"></span>
+                <span><span class="choice__title">Available</span><span class="choice__desc">I can be contacted for matching requests.</span></span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="available" value="false" />
+                <span class="choice__mark"></span>
+                <span><span class="choice__title">Not available</span><span class="choice__desc">Pause contact for now.</span></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 5 Confirm -->
+          <div class="wizard__panel card card--pad-lg hide" data-panel="5">
+            <h2>Confirm</h2>
+            <p style="margin-bottom:var(--sp-5)">Step 05 — quick review before we create your profile.</p>
+            <dl class="stack" id="reviewList" style="display:grid;gap:10px"></dl>
+            <div id="eligPreview" style="margin-top:var(--sp-5)"></div>
+          </div>
+
+          <div class="wizard__nav">
+            <button type="button" class="btn btn--ghost" id="wizPrev">Back</button>
+            <button type="button" class="btn btn--primary" id="wizNext">Continue</button>
+            <button type="submit" class="btn btn--primary hide" id="wizSubmit">Create my donor profile</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/icons.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/register.js"></script>
+</body>
+</html>

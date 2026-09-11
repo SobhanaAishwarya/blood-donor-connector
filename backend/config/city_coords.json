@@ -1,0 +1,17 @@
+{
+  "_comment": "Approximate city-centre coordinates used to place donors/requests on the visual map when no precise geocode is available. Add cities freely.",
+  "cities": {
+    "Visakhapatnam": { "lat": 17.6868, "lng": 83.2185 },
+    "Vijayawada":    { "lat": 16.5062, "lng": 80.6480 },
+    "Hyderabad":     { "lat": 17.3850, "lng": 78.4867 },
+    "Rajahmundry":   { "lat": 17.0005, "lng": 81.8040 },
+    "Kakinada":      { "lat": 16.9891, "lng": 82.2475 },
+    "Guntur":       { "lat": 16.3067, "lng": 80.4365 },
+    "Tirupati":      { "lat": 13.6288, "lng": 79.4192 },
+    "Bengaluru":     { "lat": 12.9716, "lng": 77.5946 },
+    "Chennai":       { "lat": 13.0827, "lng": 80.2707 },
+    "Pune":          { "lat": 18.5204, "lng": 73.8567 },
+    "Mumbai":        { "lat": 19.0760, "lng": 72.8777 },
+    "Delhi":         { "lat": 28.6139, "lng": 77.2090 }
+  }
+}

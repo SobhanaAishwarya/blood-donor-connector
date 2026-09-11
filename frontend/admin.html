@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Admin · Blood Donor Connector</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2S5 10 5 15a7 7 0 0 0 14 0C19 10 12 2 12 2Z' fill='%23c2132c'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <header class="nav" id="nav"></header>
+  <main class="app-main">
+    <div class="container stack-lg">
+      <div class="page-head">
+        <span class="eyebrow">Admin overview</span>
+        <h1>Network health</h1>
+        <p>Live snapshot of donors, requests and matching activity.</p>
+      </div>
+
+      <div class="metric-row" id="metrics"></div>
+
+      <div class="chart-grid" id="charts"></div>
+
+      <div class="card">
+        <div class="card__title" style="margin-bottom:var(--sp-4)">Recent matching activity</div>
+        <div class="table-wrap"><table class="data-table" id="activityTable"></table></div>
+      </div>
+
+      <div class="grid" style="gap:var(--sp-6)">
+        <div class="card">
+          <div class="spread" style="margin-bottom:var(--sp-4)">
+            <div class="card__title">Blood requests</div>
+            <span class="muted" id="reqCount" style="font-size:var(--fs-sm)"></span>
+          </div>
+          <div class="table-wrap"><table class="data-table" id="requestsTable"></table></div>
+        </div>
+        <div class="card">
+          <div class="card__title" style="margin-bottom:var(--sp-4)">Donors</div>
+          <div class="table-wrap"><table class="data-table" id="donorsTable"></table></div>
+        </div>
+        <div class="card">
+          <div class="card__title" style="margin-bottom:var(--sp-4)">Donation confirmations</div>
+          <div class="table-wrap"><table class="data-table" id="donationsTable"></table></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/icons.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

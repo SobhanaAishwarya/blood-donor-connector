@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Find a Donor · Blood Donor Connector</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2S5 10 5 15a7 7 0 0 0 14 0C19 10 12 2 12 2Z' fill='%23c2132c'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <header class="nav" id="nav"></header>
+  <main class="app-main">
+    <div class="container">
+      <div class="page-head">
+        <h1>Find a donor</h1>
+        <p>Search is <b>eligibility-aware</b> — donors in their rest period are never shown.</p>
+      </div>
+
+      <form class="card filter-bar" id="filters">
+        <div class="field">
+          <label for="fg">Blood group</label>
+          <select class="select" id="fg" name="blood_group"><option value="">Any</option></select>
+        </div>
+        <div class="field">
+          <label for="fmode">Match</label>
+          <select class="select" id="fmode" name="match">
+            <option value="exact">Exact group</option>
+            <option value="compatible">Can donate to…</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fcity">City</label>
+          <input class="input" id="fcity" name="city" list="cityList" placeholder="Any city" />
+          <datalist id="cityList"></datalist>
+        </div>
+        <div class="field">
+          <label for="fdist">Within</label>
+          <select class="select" id="fdist" name="max_distance">
+            <option value="">Any distance</option>
+            <option value="5">5 km</option>
+            <option value="10">10 km</option>
+            <option value="20">20 km</option>
+            <option value="50">50 km</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="favail">Availability</label>
+          <select class="select" id="favail" name="available">
+            <option value="">Any</option>
+            <option value="true">Available now</option>
+            <option value="false">Unavailable</option>
+          </select>
+        </div>
+      </form>
+
+      <div class="locked-note" style="margin:12px 0 24px">
+        <span id="eligLock"></span>
+      </div>
+
+      <div class="spread" style="margin-bottom:var(--sp-4)">
+        <span class="muted" id="resultCount">—</span>
+      </div>
+      <div id="results" class="donor-grid"></div>
+    </div>
+  </main>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/icons.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/search.js"></script>
+</body>
+</html>

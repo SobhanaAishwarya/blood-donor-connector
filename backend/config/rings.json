@@ -1,0 +1,9 @@
+{
+  "_comment": "Ring-based fan-out matching. Each ring is a distance band around the request. The matcher fills one ring at a time, waits RING_TIMEOUT_MINUTES for an acceptance, then expands to the next ring.",
+  "rings": [
+    { "ring": 1, "min_km": 0,  "max_km": 5,   "label": "0-5 km" },
+    { "ring": 2, "min_km": 5,  "max_km": 10,  "label": "5-10 km" },
+    { "ring": 3, "min_km": 10, "max_km": 20,  "label": "10-20 km" },
+    { "ring": 4, "min_km": 20, "max_km": 100, "label": "20 km+" }
+  ]
+}

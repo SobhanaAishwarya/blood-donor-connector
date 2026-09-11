@@ -1,0 +1,46 @@
+# Render Blueprint - https://render.com/docs/blueprint-spec
+#
+# One-click path:
+#   1. Push this repo to GitHub.
+#   2. On Render: New -> Blueprint -> pick this repo -> Apply.
+# Render reads this file and provisions the web service below automatically.
+# No paid plan or card is required for the "free" plan.
+#
+# Notes:
+#   - Free-plan disks are ephemeral (reset on redeploy/restart), so the app
+#     auto-seeds its demo dataset on first boot (AUTO_SEED_DEMO_DATA) -
+#     the demo always works after a deploy.
+#   - To get a persistent database instead, uncomment the `disk:` block
+#     below (requires a paid instance type) or attach a Render Postgres
+#     instance and set DATABASE_URL to its connection string.
+
+services:
+  - type: web
+    name: blood-donor-connector
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 1 --threads 4 --timeout 60 -b 0.0.0.0:$PORT run:app
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:///database/blood_connector.db
+      - key: AUTO_SEED_DEMO_DATA
+        value: "true"
+      - key: JWT_EXPIRES_DAYS
+        value: "7"
+      - key: RING_TIMEOUT_MINUTES
+        value: "15"
+      - key: MAX_DONORS_PER_RING
+        value: "5"
+    # disk:
+    #   name: bdc-data
+    #   mountPath: /opt/render/project/src/database
+    #   sizeGB: 1

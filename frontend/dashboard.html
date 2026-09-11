@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Donor Dashboard · Blood Donor Connector</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2S5 10 5 15a7 7 0 0 0 14 0C19 10 12 2 12 2Z' fill='%23c2132c'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+</head>
+<body>
+  <header class="nav" id="nav"></header>
+
+  <main class="app-main">
+    <div class="container">
+      <div class="page-head">
+        <p class="greeting" id="greeting">Good day</p>
+        <h1 id="donorName">Your dashboard</h1>
+      </div>
+
+      <div id="profileGate" class="hide"></div>
+
+      <div class="layout-2col" id="dashBody">
+        <!-- LEFT -->
+        <div class="stack-lg">
+          <!-- status -->
+          <div class="status-card" id="statusCard">
+            <div class="spread">
+              <div>
+                <div class="greeting">Current status</div>
+                <div class="status-card__state" id="statusState">
+                  <span class="live-dot"></span> <span id="statusText">You are available</span>
+                </div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="availToggle" />
+                <span class="switch__track"></span>
+                <span id="availLabel" style="font-size:var(--fs-sm);font-weight:700">Available</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- stat tiles -->
+          <div class="stat-tiles" id="statTiles"></div>
+
+          <!-- eligibility -->
+          <div class="card" id="eligCard">
+            <div class="card__title" style="margin-bottom:var(--sp-4)">Eligibility</div>
+            <div class="elig-card" id="eligBody"></div>
+          </div>
+
+          <!-- nearby requests -->
+          <div class="stack">
+            <div class="spread">
+              <h2 style="font-size:var(--fs-xl)">Requests near you</h2>
+              <a class="link" href="/requests.html">View all</a>
+            </div>
+            <div id="requestsWrap" class="stack"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="stack-lg">
+          <div class="card">
+            <div class="card__title" style="margin-bottom:var(--sp-4)">Donation history</div>
+            <div id="historyWrap"></div>
+          </div>
+          <div class="card" style="background:var(--surface-2)">
+            <div class="card__title">Your profile</div>
+            <div id="profileMini" class="stack" style="margin-top:var(--sp-3)"></div>
+            <button class="btn btn--ghost btn--sm btn--block" id="editProfileBtn" style="margin-top:var(--sp-4)">Edit profile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/icons.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/ui.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/notifications.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
