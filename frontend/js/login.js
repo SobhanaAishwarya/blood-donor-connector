@@ -4,7 +4,7 @@
 
   $("#brandMark").innerHTML = icon("drop", 19);
   $("#asidePoints").innerHTML = [
-    ["shield-check", "Eligibility is calculated automatically — no ineligible donors are shown."],
+    ["shield-check", "Eligibility is calculated automatically - no ineligible donors are shown."],
     ["lock", "Contact details stay hidden until a donor accepts."],
     ["route", "The nearest 5 donors are contacted first, then the search widens."],
   ].map(([ic, t]) => `<div>${icon(ic, 20)}<span>${t}</span></div>`).join("");

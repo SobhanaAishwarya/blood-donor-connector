@@ -25,9 +25,9 @@ class RingMap {
   constructor(container, { rings, maxKm } = {}) {
     this.container = container;
     this.rings = rings || [
-      { ring: 1, max_km: 5, label: "0–5 km" },
-      { ring: 2, max_km: 10, label: "5–10 km" },
-      { ring: 3, max_km: 20, label: "10–20 km" },
+      { ring: 1, max_km: 5, label: "0-5 km" },
+      { ring: 2, max_km: 10, label: "5-10 km" },
+      { ring: 3, max_km: 20, label: "10-20 km" },
     ];
     this.maxKm = maxKm || this.rings[this.rings.length - 1].max_km;
     this.activeRing = 1;

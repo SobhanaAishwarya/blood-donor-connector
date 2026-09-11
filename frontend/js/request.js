@@ -1,4 +1,4 @@
-/* Blood request — create flow + live ring-matching tracker + donor match view. */
+/* Blood request - create flow + live ring-matching tracker + donor match view. */
 (async function () {
   const { $, $$, icon, escapeHtml, fmt } = BDC;
 
@@ -67,7 +67,7 @@
       BDC.form.busy(btn, true, "Starting…");
       try {
         const data = await BDC.api.post("/requests", body);
-        BDC.toast("Matching started — contacting nearby donors.", "ok", 2000);
+        BDC.toast("Matching started - contacting nearby donors.", "ok", 2000);
         setTimeout(() => (location.href = `/request.html?id=${data.request.id}`), 500);
       } catch (err) {
         BDC.form.busy(btn, false);
@@ -143,7 +143,7 @@
     }
 
     const statusLine = accepted
-      ? `${icon("check-circle", 20)} Donor found — awaiting donation`
+      ? `${icon("check-circle", 20)} Donor found - awaiting donation`
       : `<span class="spinner"></span> Searching nearby donors`;
 
     $("#trackBody").innerHTML = `
@@ -227,7 +227,7 @@
         : band.state === "complete" ? "Complete" : "Not activated yet";
       return `<div class="ring-row ${cls}">
         <div class="ring-row__idx">${band.ring}</div>
-        <div class="ring-row__label"><b>Ring ${band.ring} — ${band.label}</b><span>${band.contacted} contacted · ${word}</span></div>
+        <div class="ring-row__label"><b>Ring ${band.ring} - ${band.label}</b><span>${band.contacted} contacted · ${word}</span></div>
         <div>${band.state === "searching" ? `<span class="spinner"></span>` : band.state === "responded" ? icon("check", 16) : ""}</div>
       </div>`;
     }).join("");
@@ -255,9 +255,9 @@
       ${accepted ? `
         <div class="contact-reveal stack" style="gap:6px">
           <b>${icon("check-circle", 15)} This donor accepted your request.</b>
-          <div class="donor-anon-card__row">${icon("user", 15)} ${escapeHtml(d.name || "—")}</div>
-          <div class="donor-anon-card__row">${icon("phone", 15)} <a href="tel:${escapeHtml(d.phone || "")}">${escapeHtml(d.phone || "—")}</a></div>
-          <div class="donor-anon-card__row">${icon("mail", 15)} <a href="mailto:${escapeHtml(d.email || "")}">${escapeHtml(d.email || "—")}</a></div>
+          <div class="donor-anon-card__row">${icon("user", 15)} ${escapeHtml(d.name || " - ")}</div>
+          <div class="donor-anon-card__row">${icon("phone", 15)} <a href="tel:${escapeHtml(d.phone || "")}">${escapeHtml(d.phone || " - ")}</a></div>
+          <div class="donor-anon-card__row">${icon("mail", 15)} <a href="mailto:${escapeHtml(d.email || "")}">${escapeHtml(d.email || " - ")}</a></div>
         </div>
         <button class="btn btn--primary btn--sm" data-confirm="${m.id}">${icon("check", 15)} Donation completed</button>
       ` : `
@@ -312,7 +312,7 @@
           match_id: Number(matchId), fulfilled: !!yes,
         });
         if (yes) { stopTimers(); state = { ...state, request: res.request }; renderFulfilled(res); }
-        else { BDC.toast("Marked as not fulfilled — search resumed.", "info"); await refetch(reqId); }
+        else { BDC.toast("Marked as not fulfilled - search resumed.", "info"); await refetch(reqId); }
       } catch (err) { BDC.toast(err.message, "err"); }
     }));
   }
@@ -367,8 +367,8 @@
           <div class="contact-reveal stack" style="gap:6px">
             <b>${icon("check-circle", 16)} You accepted this request.</b>
             <div class="donor-anon-card__row">${icon("user", 15)} ${escapeHtml(r.requester_name || "Requester")}</div>
-            <div class="donor-anon-card__row">${icon("phone", 15)} <a href="tel:${escapeHtml(r.requester_phone || "")}">${escapeHtml(r.requester_phone || "—")}</a></div>
-            <div class="donor-anon-card__row">${icon("mail", 15)} <a href="mailto:${escapeHtml(r.requester_email || "")}">${escapeHtml(r.requester_email || "—")}</a></div>
+            <div class="donor-anon-card__row">${icon("phone", 15)} <a href="tel:${escapeHtml(r.requester_phone || "")}">${escapeHtml(r.requester_phone || " - ")}</a></div>
+            <div class="donor-anon-card__row">${icon("mail", 15)} <a href="mailto:${escapeHtml(r.requester_email || "")}">${escapeHtml(r.requester_email || " - ")}</a></div>
           </div>` : `
           <div class="locked-note">${icon("lock", 14)} The requester's contact details appear here after you accept.</div>
           <div class="cluster">
@@ -393,7 +393,7 @@
     $("#dmDecline")?.addEventListener("click", async () => {
       try {
         await BDC.api.post(`/matches/${m.id}/decline`);
-        BDC.toast("Noted — you won't be contacted for this request.", "info");
+        BDC.toast("Noted - you won't be contacted for this request.", "info");
         location.href = "/dashboard.html";
       } catch (err) { BDC.toast(err.message, "err"); }
     });

@@ -1,4 +1,4 @@
-/* Requests list — requester sees their own; donor sees nearby + contacted. */
+/* Requests list - requester sees their own; donor sees nearby + contacted. */
 (async function () {
   const { $, $$, icon, escapeHtml, fmt } = BDC;
   const me = await BDC.requireAuth();
@@ -54,7 +54,7 @@
           </div>
         </div>
         <div class="spread" style="font-size:var(--fs-sm)">
-          <span class="muted">${r.status === "searching" ? `Ring ${rs.current_ring || 1} · ${ms.contacted || 0} contacted` : r.status === "matched" ? "Donor found — confirm when done" : r.status === "fulfilled" ? "Completed" : r.status}</span>
+          <span class="muted">${r.status === "searching" ? `Ring ${rs.current_ring || 1} · ${ms.contacted || 0} contacted` : r.status === "matched" ? "Donor found - confirm when done" : r.status === "fulfilled" ? "Completed" : r.status}</span>
           <span class="link">Open →</span>
         </div>
       </a>`;

@@ -136,19 +136,19 @@
       ["Sex", d.gender],
       ["Last donation", d.last_donation_date || "Never / unknown"],
       ["City", d.city],
-      ["Locality", d.locality || "—"],
+      ["Locality", d.locality || " - "],
       ["Availability", d.available === "true" ? "Available" : "Not available"],
     ];
     $("#reviewList").innerHTML = rows.map(([k, v]) =>
       `<div class="spread" style="border-bottom:1px solid var(--border);padding-bottom:8px">
          <span class="muted" style="font-size:var(--fs-sm)">${k}</span>
-         <b>${escapeHtml(v || "—")}</b></div>`).join("");
+         <b>${escapeHtml(v || " - ")}</b></div>`).join("");
 
     // local eligibility preview (mirrors backend rule)
     const interval = d.gender === "female" ? 120 : 90;
     let html;
     if (!d.last_donation_date) {
-      html = eligBox(true, "Eligible to donate", "No donation on record yet — you're good to go.");
+      html = eligBox(true, "Eligible to donate", "No donation on record yet - you're good to go.");
     } else {
       const days = Math.floor((Date.now() - new Date(d.last_donation_date)) / 86400000);
       const rem = Math.max(0, interval - days);
@@ -184,7 +184,7 @@
     try {
       const data = await BDC.api.post("/auth/register", body, { auth: false });
       BDC.token.set(data.token);
-      BDC.toast("Welcome aboard — your donor profile is live.", "ok", 2000);
+      BDC.toast("Welcome aboard - your donor profile is live.", "ok", 2000);
       setTimeout(() => (location.href = "/dashboard.html"), 600);
     } catch (err) {
       BDC.form.busy(btn, false);

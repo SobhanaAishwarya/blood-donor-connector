@@ -1,11 +1,11 @@
 /* ==========================================================================
-   Blood Donor Connector — design system
+   Blood Donor Connector - design system
    Trust · Urgency · Safety · Community
    ========================================================================== */
 
 /* ----- Design tokens ---------------------------------------------------- */
 :root {
-  /* Brand — deep crimson, used sparingly for blood / urgency / key CTAs */
+  /* Brand - deep crimson, used sparingly for blood / urgency / key CTAs */
   --crimson-50:  #fff1f2;
   --crimson-100: #ffe1e3;
   --crimson-200: #ffc7cc;
@@ -17,7 +17,7 @@
   --crimson-800: #851222;
   --crimson-900: #6f1420;
 
-  /* Neutrals — the interface lives here */
+  /* Neutrals - the interface lives here */
   --ink-900: #14161a;
   --ink-800: #1f232b;
   --ink-700: #2c313b;

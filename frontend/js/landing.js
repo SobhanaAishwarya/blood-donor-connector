@@ -17,9 +17,9 @@
 
   // features
   const features = [
-    ["shield-check", "Eligibility-aware matching", "Donors in their rest period are automatically excluded — no bypass, ever."],
+    ["shield-check", "Eligibility-aware matching", "Donors in their rest period are automatically excluded - no bypass, ever."],
     ["target", "Nearest-first matching", "The closest 5 eligible donors are contacted before anyone further away."],
-    ["lock", "Privacy protection", "Requesters see an anonymous ID, blood group and rough distance — nothing more."],
+    ["lock", "Privacy protection", "Requesters see an anonymous ID, blood group and rough distance - nothing more."],
     ["activity", "Availability status", "Donors flip a single switch when they can or can't help right now."],
     ["shield", "Verified donation history", "Confirmed donations build a trustworthy record and update eligibility."],
     ["route", "Intelligent fan-out", "Silence expands the radius ring by ring, so no one is spammed."],

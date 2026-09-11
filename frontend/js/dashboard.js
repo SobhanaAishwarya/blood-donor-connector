@@ -121,7 +121,7 @@
   renderElig();
   function renderElig() {
     const pct = elig.progress ?? (elig.days_since && elig.interval_days ? Math.min(1, elig.days_since / elig.interval_days) : 1);
-    const top = elig.days_since != null ? elig.days_since : "—";
+    const top = elig.days_since != null ? elig.days_since : " - ";
     const bottom = `/ ${elig.interval_days} days`;
     $("#eligBody").innerHTML = `
       ${BDC.progressRing(pct, {
@@ -151,7 +151,7 @@
     ["history", "Verified donations", donor.verified_donation_count],
   ].map(([ic, k, v]) => `
     <div class="spread" style="border-bottom:1px solid var(--border);padding-bottom:8px">
-      <span class="donor-card__row">${icon(ic, 15)} ${k}</span><b>${escapeHtml(String(v ?? "—"))}</b>
+      <span class="donor-card__row">${icon(ic, 15)} ${k}</span><b>${escapeHtml(String(v ?? " - "))}</b>
     </div>`).join("");
   $("#editProfileBtn").addEventListener("click", openEditModal);
 

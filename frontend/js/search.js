@@ -1,4 +1,4 @@
-/* Donor search — privacy-first, eligibility always enforced. */
+/* Donor search - privacy-first, eligibility always enforced. */
 (async function () {
   const { $, $$, icon, escapeHtml, fmt } = BDC;
 
@@ -72,7 +72,7 @@
           ${BDC.chips.blood(d.blood_group)}
         </div>
         <div class="donor-card__row">${icon("check-circle", 15)} ${e.eligible ? "Eligible to donate" : "Resting"}</div>
-        <div class="donor-card__row">${icon("pin", 15)} ${escapeHtml(d.locality ? d.locality + ", " : "")}${escapeHtml(d.city || "—")}</div>
+        <div class="donor-card__row">${icon("pin", 15)} ${escapeHtml(d.locality ? d.locality + ", " : "")}${escapeHtml(d.city || " - ")}</div>
         <div class="donor-card__row">${icon("route", 15)} ${d.distance_km != null ? "~" + fmt.distance(d.distance_km) + " away" : "Distance unknown"}</div>
         <div class="cluster" style="margin-top:2px">
           ${d.available ? `<span class="badge badge--ok"><span class="dot"></span> Available now</span>` : `<span class="badge"><span class="dot"></span> Unavailable</span>`}

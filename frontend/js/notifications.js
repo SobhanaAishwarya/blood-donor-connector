@@ -1,4 +1,4 @@
-/* Notification centre — slide-out panel + unread badge, shared by app pages. */
+/* Notification centre - slide-out panel + unread badge, shared by app pages. */
 window.BDC = window.BDC || {};
 (function () {
 const { $, icon, escapeHtml } = BDC;

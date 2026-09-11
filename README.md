@@ -4,12 +4,12 @@
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/SobhanaAishwarya/blood-donor-connector)
 
-An **intelligent emergency blood-matching system** — not a directory of donors.
+An **intelligent emergency blood-matching system** - not a directory of donors.
 It works out *who can actually help today*, contacts the **nearest eligible
 people first**, expands the search **ring by ring**, and keeps everyone's
 contact details private **until a donor explicitly accepts**.
 
-> **USP:** *Only contact donors who can donate today — nearest first, privacy protected.*
+> **USP:** *Only contact donors who can donate today - nearest first, privacy protected.*
 
 ---
 
@@ -19,7 +19,7 @@ contact details private **until a donor explicitly accepts**.
 | --- | --- |
 | ![Landing page](docs/screenshots/01-landing.png) | ![Donor dashboard](docs/screenshots/07-donor-dashboard.png) |
 
-| Live ring-matching tracker | Donor found — reveal on accept |
+| Live ring-matching tracker | Donor found - reveal on accept |
 | --- | --- |
 | ![Request tracker](docs/screenshots/10-request-track.png) | ![Matched request](docs/screenshots/11-request-track-matched.png) |
 
@@ -34,9 +34,9 @@ contact details private **until a donor explicitly accepts**.
 | Typical platform | Blood Donor Connector |
 | --- | --- |
 | Notifies everyone in a city | Contacts the **5 nearest eligible** donors first |
-| Shows donors who recently donated / moved / are unavailable | **Eligibility engine** excludes anyone in their rest period — no override |
-| Exposes phone numbers up front | **Anonymous until accept** — `Donor #BD1042`, blood group, rough distance |
-| One big blast | **Ring-based fan-out**: 0–5 km → wait 15 min → 5–10 km → 10–20 km |
+| Shows donors who recently donated / moved / are unavailable | **Eligibility engine** excludes anyone in their rest period - no override |
+| Exposes phone numbers up front | **Anonymous until accept** - `Donor #BD1042`, blood group, rough distance |
+| One big blast | **Ring-based fan-out**: 0 - 5 km → wait 15 min → 5 - 10 km → 10 - 20 km |
 
 ---
 
@@ -63,7 +63,7 @@ python -m venv .venv
 pip install -r requirements.txt
 
 # 2. (optional) configure
-copy .env.example .env            # cp on macOS/Linux — defaults work as-is
+copy .env.example .env            # cp on macOS/Linux - defaults work as-is
 
 # 3. seed the demo data
 python -m backend.seed
@@ -81,8 +81,8 @@ All accounts share the password **`Passw0rd!`**
 | Role | Email | Notes |
 | --- | --- | --- |
 | Admin | `admin@blooddonor.test` | dashboards, charts, moderation |
-| Requester | `requester@blooddonor.test` | Priya Nair — has active + fulfilled requests |
-| Requester | `kiran@blooddonor.test` | Kiran Rao — has a *matched* request to confirm |
+| Requester | `requester@blooddonor.test` | Priya Nair - has active + fulfilled requests |
+| Requester | `kiran@blooddonor.test` | Kiran Rao - has a *matched* request to confirm |
 | Donor | `aishwarya@blooddonor.test` | O+, eligible, available, donation history |
 | Donor | `rahul.d@blooddonor.test` | A+, eligible, available |
 | Donor | `meghana@blooddonor.test` | O−, **resting** (shows the not-eligible state) |
@@ -93,7 +93,7 @@ e.g. `sandeep@blooddonor.test`).
 
 ### Deploy it
 
-One-click free deploy to Render (or Railway) — see **[DEPLOY.md](DEPLOY.md)**.
+One-click free deploy to Render (or Railway) - see **[DEPLOY.md](DEPLOY.md)**.
 The app auto-seeds its own demo data on first boot, so a fresh deploy works
 immediately with no manual steps.
 
@@ -101,18 +101,18 @@ immediately with no manual steps.
 
 ## Try the five flows
 
-1. **Donor** – sign in as `aishwarya`, toggle availability, open a nearby
+1. **Donor** - sign in as `aishwarya`, toggle availability, open a nearby
    request, **I Can Help** → confirm modal → contact revealed.
-2. **Requester** – sign in as `requester`, **New request** (O+, Critical,
+2. **Requester** - sign in as `requester`, **New request** (O+, Critical,
    Visakhapatnam) → live tracker → *Simulate 15 minutes* to watch the ring
    expand → a donor accepts → **Donation completed** → request fulfilled.
-3. **Eligibility loop** – after a donation is confirmed the donor's
+3. **Eligibility loop** - after a donation is confirmed the donor's
    `last_donation_date` updates, eligibility recalculates, and they drop out
    of search until the interval passes (90 d men / 120 d women).
-4. **Ring fan-out** – on any searching request, *Simulate 15 minutes*
+4. **Ring fan-out** - on any searching request, *Simulate 15 minutes*
    repeatedly: Ring 1 → Ring 2 → Ring 3, contacting the next-nearest eligible
    donors each time, never everyone at once.
-5. **Privacy** – as a requester, contacted donors show as `Donor #BDxxxx`
+5. **Privacy** - as a requester, contacted donors show as `Donor #BDxxxx`
    with blood group + approximate distance only. Name, phone and email appear
    **only after** that donor accepts.
 
@@ -155,25 +155,25 @@ blood-donor-connector/
 
 ## Core logic
 
-### Eligibility engine — `services/eligibility_service.py`
+### Eligibility engine - `services/eligibility_service.py`
 
 * Men → **90 days** between donations, Women → **120 days**.
 * Computed on every read (never stored), so it's always current.
 * `eligible_filter()` is a SQLAlchemy expression so search/matching stay a
   single query.
-* **There is no way for a user to bypass it** — ineligible donors are removed
+* **There is no way for a user to bypass it** - ineligible donors are removed
   from every search and every matching ring.
 
-### Ring-based fan-out — `services/matching_service.py`
+### Ring-based fan-out - `services/matching_service.py`
 
 ```
 Emergency request
       │
-  Ring 1 · 0–5 km   → 5 nearest eligible + available compatible donors
+  Ring 1 · 0 - 5 km   → 5 nearest eligible + available compatible donors
       │  (15 min, no acceptance)
-  Ring 2 · 5–10 km  → next nearest
+  Ring 2 · 5 - 10 km  → next nearest
       │  (15 min, no acceptance)
-  Ring 3 · 10–20 km → wider area
+  Ring 3 · 10 - 20 km → wider area
 ```
 
 Priority: **compatibility → eligibility → availability → distance → response
@@ -181,13 +181,13 @@ status**. Donors already committed to another active request are skipped.
 Rings advance on read (`maybe_advance`) or via the demo *Simulate 15 minutes*
 button (`POST /api/requests/:id/simulate-timeout`).
 
-### Blood compatibility — `backend/config/blood_compatibility.json`
+### Blood compatibility - `backend/config/blood_compatibility.json`
 
-Editable RBC-compatibility map (`recipient_can_receive_from`) — e.g. `O-`
+Editable RBC-compatibility map (`recipient_can_receive_from`) - e.g. `O-`
 donates to everyone, `AB+` receives from everyone. No rules hard-coded in
 application logic.
 
-### Privacy — reveal on accept
+### Privacy - reveal on accept
 
 `Match.to_dict_for_requester()` returns an anonymous view while
 `response != "accepted"`; only after the donor confirms does it include name,

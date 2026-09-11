@@ -115,7 +115,7 @@
         <td>${escapeHtml(r.city)}</td>
         <td>${BDC.chips.status(r.status)}</td>
         <td>${(r.match_summary || {}).contacted || 0} · ${(r.match_summary || {}).accepted || 0} accepted</td>
-        <td class="muted">${escapeHtml(r.requester_name || "—")}</td>
+        <td class="muted">${escapeHtml(r.requester_name || " - ")}</td>
         <td><button class="link" data-flag="${r.id}">${r.status === "flagged" ? "Unflag" : "Flag"}</button></td>
       </tr>`).join("")}</tbody>`;
   $$("#requestsTable [data-flag]").forEach((btn) => btn.addEventListener("click", async () => {
@@ -137,9 +137,9 @@
     <tbody>${dn.donors.map((d) => `
       <tr>
         <td>${escapeHtml(d.anon_id)}</td>
-        <td>${escapeHtml(d.name || "—")}</td>
-        <td>${BDC.chips.blood(d.blood_group || "—")}</td>
-        <td>${escapeHtml(d.city || "—")}</td>
+        <td>${escapeHtml(d.name || " - ")}</td>
+        <td>${BDC.chips.blood(d.blood_group || " - ")}</td>
+        <td>${escapeHtml(d.city || " - ")}</td>
         <td>${BDC.chips.eligibility(d.eligibility)}</td>
         <td>${d.available ? `<span class="badge badge--ok">Yes</span>` : `<span class="badge">No</span>`}</td>
         <td>${d.verified_donation_count}</td>
@@ -151,10 +151,10 @@
     <thead><tr><th>Donor</th><th>Request</th><th>Group</th><th>Date</th><th>Verified</th></tr></thead>
     <tbody>${do_.donations.length ? do_.donations.map((d) => `
       <tr>
-        <td>${escapeHtml(d.donor_anon || "—")}</td>
-        <td>#${d.request_id ?? "—"}</td>
-        <td>${BDC.chips.blood(d.blood_group || "—")}</td>
+        <td>${escapeHtml(d.donor_anon || " - ")}</td>
+        <td>#${d.request_id ?? " - "}</td>
+        <td>${BDC.chips.blood(d.blood_group || " - ")}</td>
         <td>${fmt.date(d.donation_date)}</td>
-        <td>${d.verified ? icon("check-circle", 16) : "—"}</td>
+        <td>${d.verified ? icon("check-circle", 16) : " - "}</td>
       </tr>`).join("") : `<tr><td colspan="5" class="muted">No confirmed donations yet.</td></tr>`}</tbody>`;
 })();

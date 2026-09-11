@@ -23,7 +23,7 @@ BDC.escapeHtml = (s) =>
 
 BDC.fmt = {
   distance(km) {
-    if (km == null || !isFinite(km)) return "—";
+    if (km == null || !isFinite(km)) return " - ";
     if (km < 1) return `${Math.round(km * 1000)} m`;
     return `${km.toFixed(1)} km`;
   },
@@ -41,7 +41,7 @@ BDC.fmt = {
     return d.toLocaleDateString(undefined, { day: "numeric", month: "short" });
   },
   date(iso) {
-    if (!iso) return "—";
+    if (!iso) return " - ";
     return new Date(iso).toLocaleDateString(undefined, {
       day: "numeric", month: "short", year: "numeric",
     });
