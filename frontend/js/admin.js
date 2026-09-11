@@ -14,15 +14,15 @@
   // ---- metrics ----
   const t = dash.totals;
   $("#metrics").innerHTML = [
-    ["users", t.donors, "Total donors", "trend-up", `${t.eligible_donors} eligible now`],
-    ["shield-check", t.eligible_donors, "Eligible donors", null, `${t.donors - t.eligible_donors} resting`],
-    ["activity", t.unavailable_donors, "Unavailable donors", null, `${t.available_donors} available`],
-    ["droplets", t.active_requests, "Active requests", null, `${t.pending_requests} searching`],
-    ["check-circle", t.fulfilled_requests, "Fulfilled requests", "trend-up", `${t.donations} donations logged`],
-    ["flag", t.flagged_requests, "Flagged requests", null, "needs review"],
-  ].map(([ic, val, label, trend, sub]) => `
-    <div class="metric">
-      <div class="spread"><div class="stat-tile__icon">${icon(ic, 18)}</div>${trend ? `<span class="metric__trend">${icon(trend, 13)}</span>` : ""}</div>
+    ["users", t.donors, "Total donors", "trend-up", `${t.eligible_donors} eligible now`, "blue"],
+    ["shield-check", t.eligible_donors, "Eligible donors", null, `${t.donors - t.eligible_donors} resting`, "green"],
+    ["activity", t.unavailable_donors, "Unavailable donors", null, `${t.available_donors} available`, "amber"],
+    ["droplets", t.active_requests, "Active requests", null, `${t.pending_requests} searching`, "crimson"],
+    ["check-circle", t.fulfilled_requests, "Fulfilled requests", "trend-up", `${t.donations} donations logged`, "purple"],
+    ["flag", t.flagged_requests, "Flagged requests", null, "needs review", "crimson"],
+  ].map(([ic, val, label, trend, sub, tone]) => `
+    <div class="metric metric--${tone}">
+      <div class="spread"><div class="metric__icon">${icon(ic, 18)}</div>${trend ? `<span class="metric__trend">${icon(trend, 13)}</span>` : ""}</div>
       <div class="metric__value" data-count="${val}">0</div>
       <div class="metric__label">${label}</div>
       <div class="muted" style="font-size:var(--fs-xs);margin-top:4px">${escapeHtml(sub)}</div>
@@ -39,18 +39,23 @@
   ].join("");
 
   function chartCard(title, inner) {
-    return `<div class="card"><div class="card__title" style="margin-bottom:var(--sp-4)">${title}</div>${inner}</div>`;
+    return `<div class="card chart-card"><div class="card__title" style="margin-bottom:var(--sp-4)">${title}</div>${inner}</div>`;
   }
 
   function barChart(series) {
     if (!series || !series.length) return emptyMini();
     const max = Math.max(...series.map((s) => s.value), 1);
-    return `<div class="bars">${series.map((s, i) => `
+    return `<div class="bars">${series.map((s, i) => {
+      const color = PALETTE[i % PALETTE.length];
+      return `
       <div class="bar-row">
-        <span class="nowrap">${escapeHtml(s.label)}</span>
-        <span class="bar-track"><span class="bar-fill" style="width:${(s.value / max) * 100}%;background:${PALETTE[i % PALETTE.length]}"></span></span>
+        <span class="bar-row__label"><span class="dot" style="background:${color}"></span>${escapeHtml(s.label)}</span>
+        <span class="bar-track" style="background:color-mix(in srgb, ${color} 14%, var(--bg-sunken))">
+          <span class="bar-fill" style="width:${(s.value / max) * 100}%;background:${color}"></span>
+        </span>
         <b>${s.value}</b>
-      </div>`).join("")}</div>`;
+      </div>`;
+    }).join("")}</div>`;
   }
 
   function donutChart(series) {
