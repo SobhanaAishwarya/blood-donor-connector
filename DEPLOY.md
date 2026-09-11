@@ -17,12 +17,21 @@ whose disk resets between deploys.
 Render reads the [`render.yaml`](render.yaml) blueprint already in this repo
 and provisions everything for you.
 
-1. Push this repo to GitHub (see the main [README](README.md) if you haven't).
-2. Go to **https://dashboard.render.com/blueprints** → **New Blueprint Instance**.
-3. Connect your GitHub account if prompted, and pick this repository.
-4. Render shows the one service defined in `render.yaml`
+### One click
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/SobhanaAishwarya/blood-donor-connector)
+
+Click the button, sign in to (or create) a free Render account if asked, and
+click **Apply**. That's the only manual step — Render reads `render.yaml`,
+generates `SECRET_KEY` itself, builds, and deploys.
+
+### Or manually
+
+1. Go to **https://dashboard.render.com/blueprints** → **New Blueprint Instance**.
+2. Connect your GitHub account if prompted, and pick this repository.
+3. Render shows the one service defined in `render.yaml`
    (`blood-donor-connector`, free plan) → click **Apply**.
-5. Wait for the build/deploy to finish (a couple of minutes), then open the
+4. Wait for the build/deploy to finish (a couple of minutes), then open the
    `.onrender.com` URL Render gives you.
 
 That's it — `SECRET_KEY` is generated automatically, and the demo data seeds
