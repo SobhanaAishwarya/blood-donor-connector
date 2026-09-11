@@ -6,7 +6,6 @@
   if (!me) return;
   BDC.mountNav("request");
 
-  const role = me.user.role;
   const id = BDC.qs("id");
   $("#loading").classList.add("hide");
 
@@ -24,17 +23,8 @@
 
   /* ===================== CREATE ===================== */
   function renderCreate() {
-    if (role !== "requester" && role !== "admin") {
-      $("#createView").classList.remove("hide");
-      $("#reqForm").outerHTML = `
-        <div class="card card--pad-lg text-center">
-          <div class="empty__art" style="margin-inline:auto">${icon("info", 44)}</div>
-          <h3>Requests are raised from a requester account</h3>
-          <p style="margin:8px 0 var(--sp-4)">You're signed in as a donor. Create a requester account to raise a blood request.</p>
-          <a class="btn btn--primary" href="/register.html">Create requester account</a>
-        </div>`;
-      return;
-    }
+    // Any signed-in account can raise a request - donors need blood
+    // sometimes too, not just requester accounts.
     $("#createView").classList.remove("hide");
 
     $("#f-group").innerHTML = `<option value="">Select…</option>` +

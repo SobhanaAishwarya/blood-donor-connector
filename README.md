@@ -80,6 +80,7 @@ All accounts share the password **`Passw0rd!`**
 
 | Role | Email | Notes |
 | --- | --- | --- |
+| **Donor** | **`abhi@gmail.com`** | ⭐ **Flagship account** - a 2-year member with 6 real, verified donations (helped 6 people) and one past request of his own that got fulfilled (he needed blood once too). Best account for showing off a "lived-in" profile. |
 | Admin | `admin@blooddonor.test` | dashboards, charts, moderation |
 | Requester | `requester@blooddonor.test` | Priya Nair - has active + fulfilled requests |
 | Requester | `kiran@blooddonor.test` | Kiran Rao - has a *matched* request to confirm |
@@ -96,6 +97,28 @@ e.g. `sandeep@blooddonor.test`).
 One-click free deploy to Render (or Railway) - see **[DEPLOY.md](DEPLOY.md)**.
 The app auto-seeds its own demo data on first boot, so a fresh deploy works
 immediately with no manual steps.
+
+---
+
+## Demoing this in an interview
+
+A good walkthrough shows **both** ends of the product:
+
+1. **An established account** - sign in as `abhi@gmail.com`. His dashboard
+   shows 2 years of tenure, 6 verified donations, "requests helped," and a
+   donation-history timeline that isn't empty - this is what the product
+   looks like once it's actually been used.
+2. **The normal, brand-new experience** - register a fresh account live (the
+   multi-step donor wizard, or a plain requester signup). It starts from
+   zero: empty history, "You're all clear," and a clean onboarding flow -
+   proving the app handles day one just as well as day 500.
+3. **The core USP, live** - as any requester (Priya, Kiran, or a fresh
+   account), raise a request and open its tracker. Click **Simulate 15
+   minutes** a couple of times to watch the ring expand outward in real
+   time, then accept it from a donor account to show contact details
+   revealing only on accept.
+4. **The numbers** - `admin@blooddonor.test` for the charts/metrics view,
+   which will already reflect whatever you just did live.
 
 ---
 

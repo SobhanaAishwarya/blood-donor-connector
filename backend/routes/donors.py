@@ -137,8 +137,12 @@ def my_request_feed():
     requests nearby that match their blood group (informational only)."""
     donor = current_donor()
     contacted = (
-        Match.query.filter(Match.donor_id == donor.id)
+        Match.query.join(BloodRequest, Match.request_id == BloodRequest.id)
+        .filter(Match.donor_id == donor.id)
         .filter(Match.response.in_(("pending", "accepted")))
+        # only requests still in play - once fulfilled/cancelled, this match
+        # belongs in donation history, not the live "contacted" feed.
+        .filter(BloodRequest.status.in_(("searching", "matched")))
         .all()
     )
     contacted_request_ids = {m.request_id for m in contacted}

@@ -1,4 +1,5 @@
-/* Requests list - requester sees their own; donor sees nearby + contacted. */
+/* Requests list - requesters/admins see their own; donors see both any
+   requests they've personally raised AND the nearby donor-matching feed. */
 (async function () {
   const { $, $$, icon, escapeHtml, fmt } = BDC;
   const me = await BDC.requireAuth();
@@ -7,63 +8,43 @@
 
   const role = me.user.role;
   const list = $("#list");
+  $("#newBtn").classList.remove("hide"); // anyone signed in can raise a request
 
   if (role === "requester" || role === "admin") {
     $("#pageTitle").textContent = "My requests";
     $("#pageSub").textContent = "Track matching, confirm donations, or raise a new request.";
-    $("#newBtn").classList.remove("hide");
     await renderRequesterList();
   } else {
-    $("#pageTitle").textContent = "Requests near you";
-    $("#pageSub").textContent = "You're only shown requests you're eligible and compatible for.";
-    await renderDonorFeed();
+    $("#pageTitle").textContent = "Requests";
+    $("#pageSub").textContent = "Requests you've raised, plus nearby requests matching your blood group.";
+    await renderDonorView();
   }
 
   async function renderRequesterList() {
+    list.className = "";
     list.innerHTML = skeletons(2);
     let data;
     try { data = await BDC.api.get("/requests?scope=mine&per_page=50"); }
     catch (err) { list.innerHTML = errBox(err.message); return; }
 
     if (!data.requests.length) {
-      list.className = "";
-      list.innerHTML = `<div class="empty">
-        <div class="empty__art">${icon("droplets", 44)}</div>
-        <h3>No requests yet</h3>
-        <p>When someone needs blood, raise a request and we'll contact the nearest eligible donors first.</p>
-        <a class="btn btn--primary btn--sm" href="/request.html" style="margin-top:12px">Raise a request</a>
-      </div>`;
+      list.innerHTML = emptyMine();
       return;
     }
     list.className = "grid grid-2";
-    list.innerHTML = data.requests.map((r) => {
-      const rs = r.ring_state || {};
-      const u = BDC.URGENCY[r.urgency] || {};
-      const ms = r.match_summary || {};
-      return `<a class="card card--interactive req-card" href="/request.html?id=${r.id}">
-        <div class="urgency-strip ${u.cls || ""}"></div>
-        <div class="req-card__top">
-          <div class="req-card__grp">${escapeHtml(r.blood_group)}</div>
-          <div class="stack" style="flex:1;gap:6px">
-            <div class="spread"><b>${escapeHtml(r.hospital)}</b>${BDC.chips.status(r.status)}</div>
-            <div class="req-card__meta">
-              <span>${icon("pin", 15)} ${escapeHtml(r.city)}</span>
-              <span>${icon("droplets", 15)} ${r.units} unit${r.units > 1 ? "s" : ""}</span>
-              <span>${icon("clock", 15)} ${fmt.timeAgo(r.created_at)}</span>
-            </div>
-          </div>
-        </div>
-        <div class="spread" style="font-size:var(--fs-sm)">
-          <span class="muted">${r.status === "searching" ? `Ring ${rs.current_ring || 1} · ${ms.contacted || 0} contacted` : r.status === "matched" ? "Donor found - confirm when done" : r.status === "fulfilled" ? "Completed" : r.status}</span>
-          <span class="link">Open →</span>
-        </div>
-      </a>`;
-    }).join("");
+    list.innerHTML = data.requests.map(requesterCard).join("");
   }
 
-  async function renderDonorFeed() {
-    list.className = "stack";
+  async function renderDonorView() {
+    list.className = "stack-lg";
     list.innerHTML = skeletons(2);
+
+    let mine = [];
+    try {
+      const m = await BDC.api.get("/requests?scope=mine&per_page=20");
+      mine = m.requests || [];
+    } catch { /* non-fatal - the feed below still renders */ }
+
     let feed;
     try { feed = await BDC.api.get("/donors/me/requests"); }
     catch (err) { list.innerHTML = errBox(err.message); return; }
@@ -74,17 +55,46 @@
     })));
     feed.nearby.forEach((r) => cards.push(feedCard(r, { distance: r.distance_km })));
 
-    if (!cards.length) {
-      list.innerHTML = `<div class="empty">
-        <div class="empty__art">${icon("check-circle", 44)}</div>
-        <h3>You're all clear</h3>
-        <p>No blood requests currently need your help. We'll notify you the moment one does.</p>
-        <a class="btn btn--ghost btn--sm" href="/search.html" style="margin-top:12px">Browse donors instead</a>
-      </div>`;
-      return;
+    const sections = [];
+    if (mine.length) {
+      sections.push(`
+        <section class="stack">
+          <div class="spread"><h2 style="font-size:var(--fs-xl)">Requests you've raised</h2></div>
+          <div class="grid grid-2">${mine.map(requesterCard).join("")}</div>
+        </section>`);
     }
-    list.innerHTML = cards.join("");
+    sections.push(`
+      <section class="stack">
+        <div class="spread"><h2 style="font-size:var(--fs-xl)">Requests near you</h2></div>
+        <div class="stack">${cards.length ? cards.join("") : emptyFeed()}</div>
+      </section>`);
+
+    list.innerHTML = sections.join("");
     wire();
+  }
+
+  function requesterCard(r) {
+    const rs = r.ring_state || {};
+    const u = BDC.URGENCY[r.urgency] || {};
+    const ms = r.match_summary || {};
+    return `<a class="card card--interactive req-card" href="/request.html?id=${r.id}">
+      <div class="urgency-strip ${u.cls || ""}"></div>
+      <div class="req-card__top">
+        <div class="req-card__grp">${escapeHtml(r.blood_group)}</div>
+        <div class="stack" style="flex:1;gap:6px">
+          <div class="spread"><b>${escapeHtml(r.hospital)}</b>${BDC.chips.status(r.status)}</div>
+          <div class="req-card__meta">
+            <span>${icon("pin", 15)} ${escapeHtml(r.city)}</span>
+            <span>${icon("droplets", 15)} ${r.units} unit${r.units > 1 ? "s" : ""}</span>
+            <span>${icon("clock", 15)} ${fmt.timeAgo(r.created_at)}</span>
+          </div>
+        </div>
+      </div>
+      <div class="spread" style="font-size:var(--fs-sm)">
+        <span class="muted">${r.status === "searching" ? `Ring ${rs.current_ring || 1} · ${ms.contacted || 0} contacted` : r.status === "matched" ? "Donor found - confirm when done" : r.status === "fulfilled" ? "Completed" : r.status}</span>
+        <span class="link">Open →</span>
+      </div>
+    </a>`;
   }
 
   function feedCard(r, { matchId, response, distance, contacted } = {}) {
@@ -149,6 +159,22 @@
     }));
   }
 
+  function emptyMine() {
+    return `<div class="empty">
+      <div class="empty__art">${icon("droplets", 44)}</div>
+      <h3>No requests yet</h3>
+      <p>When someone needs blood, raise a request and we'll contact the nearest eligible donors first.</p>
+      <a class="btn btn--primary btn--sm" href="/request.html" style="margin-top:12px">Raise a request</a>
+    </div>`;
+  }
+  function emptyFeed() {
+    return `<div class="empty">
+      <div class="empty__art">${icon("check-circle", 44)}</div>
+      <h3>You're all clear</h3>
+      <p>No blood requests currently need your help. We'll notify you the moment one does.</p>
+      <a class="btn btn--ghost btn--sm" href="/search.html" style="margin-top:12px">Browse donors instead</a>
+    </div>`;
+  }
   function skeletons(n) {
     return Array.from({ length: n }, () => `<div class="skeleton skeleton--card"></div>`).join("");
   }

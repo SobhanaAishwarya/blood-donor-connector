@@ -65,6 +65,7 @@ BDC.mountNav = function (active = "") {
     donor: [
       ["/dashboard.html", "Dashboard"],
       ["/requests.html", "Requests near me"],
+      ["/request.html", "Need blood?"],
       ["/search.html", "Find a donor"],
     ],
     requester: [

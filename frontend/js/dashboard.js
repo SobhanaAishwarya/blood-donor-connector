@@ -149,6 +149,7 @@
     ["pin", "Location", `${donor.locality ? donor.locality + ", " : ""}${donor.city}`],
     ["shield", "Anon ID", donor.anon_id],
     ["history", "Verified donations", donor.verified_donation_count],
+    ["calendar", "Member since", memberSince(me.user.created_at)],
   ].map(([ic, k, v]) => `
     <div class="spread" style="border-bottom:1px solid var(--border);padding-bottom:8px">
       <span class="donor-card__row">${icon(ic, 15)} ${k}</span><b>${escapeHtml(String(v ?? " - "))}</b>
@@ -343,6 +344,15 @@
         BDC.toast(err.message, "err");
       }
     });
+  }
+
+  function memberSince(iso) {
+    if (!iso) return " - ";
+    const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+    const tenure = days >= 365 ? `${(days / 365).toFixed(1)} yrs`
+      : days >= 30 ? `${Math.floor(days / 30)} mo`
+      : `${Math.max(days, 0)} d`;
+    return `${fmt.date(iso)} · ${tenure}`;
   }
 
   function emptyState(ic, title, text) {

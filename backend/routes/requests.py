@@ -58,8 +58,11 @@ def _can_view(req: BloodRequest) -> tuple[bool, bool]:
 # Create
 # --------------------------------------------------------------------------- #
 @requests_bp.post("")
-@roles_required("requester", "admin")
+@token_required
 def create_request():
+    # Any signed-in account can raise a request - a donor might need blood
+    # themselves one day too. Role only governs the donor-matching machinery,
+    # not who is allowed to ask for help.
     body = json_body()
     v = Validator(body)
     blood_group = v.blood_group("blood_group")

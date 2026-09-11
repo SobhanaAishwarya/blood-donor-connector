@@ -37,6 +37,8 @@ def run() -> None:
         print("  Admin      admin@blooddonor.test")
         print("  Requester  requester@blooddonor.test   (Priya Nair)")
         print("  Requester  kiran@blooddonor.test       (Kiran Rao)")
+        print("  Donor      abhi@gmail.com              O+  2-year member, 6 donations,")
+        print("                                         helped 6, once took help himself")
         print("  Donor      aishwarya@blooddonor.test   O+  eligible, available")
         print("  Donor      rahul.d@blooddonor.test     A+  eligible, available")
         print("  Donor      meghana@blooddonor.test     O-  resting (ineligible)")

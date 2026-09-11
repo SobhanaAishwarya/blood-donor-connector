@@ -290,6 +290,127 @@ def build_notifications(users: dict[str, User]) -> None:
     db.session.commit()
 
 
+def build_flagship_persona() -> None:
+    """Abhi - a two-year veteran of the platform.
+
+    Unlike the rest of the seed data (fabricated to exercise every UI state),
+    Abhi tells one continuous, coherent story: a long-time donor with a real
+    donation history AND, once, a time he needed blood himself and the
+    platform found him a donor too. Built for demoing to people who want to
+    see what an established account looks like, not a fresh signup.
+    """
+    abhi_user = User(
+        name="Abhi Reddy", email="abhi@gmail.com", phone="9000009999",
+        password_hash=hash_password(PASSWORD), role="donor",
+        created_at=utcnow() - timedelta(days=760),
+    )
+    db.session.add(abhi_user)
+    db.session.flush()
+
+    lat, lng = _at(0.3, -0.3)
+    abhi_donor = Donor(
+        user_id=abhi_user.id, blood_group="O+", gender="male",
+        city="Visakhapatnam", locality="Siripuram",
+        latitude=lat, longitude=lng, available=True,
+        last_donation_date=_days_ago(150),  # eligible again, not mid-rest
+        verified_donation_count=0,          # incremented below as real rows are added
+    )
+    abhi_donor.recompute_profile_complete()
+    db.session.add(abhi_donor)
+    db.session.commit()
+
+    # ---- six real, verified donations spread across ~2 years ----
+    donation_plan = [
+        (680, "KGH (King George Hospital)", "O+"),
+        (520, "Apollo Hospitals, Health City", "A+"),
+        (400, "Seven Hills Hospital, Rockdale", "B+"),
+        (300, "Care Hospitals, Ram Nagar", "O+"),
+        (210, "Visakha Institute of Medical Sciences", "AB+"),
+        (150, "Queens NRI Hospital", "A+"),
+    ]
+    for i, (days_ago, hospital, group) in enumerate(donation_plan):
+        patient = User(
+            name=f"Patient {i + 1}", email=f"history.patient{i + 1}@blooddonor.test",
+            phone=f"90000{8100 + i}", password_hash=hash_password(PASSWORD),
+            role="requester", created_at=utcnow() - timedelta(days=days_ago + 3),
+        )
+        db.session.add(patient)
+        db.session.flush()
+
+        req = BloodRequest(
+            requester_id=patient.id, blood_group=group, units=1,
+            hospital=hospital, city="Visakhapatnam",
+            latitude=lat, longitude=lng, urgency="urgent", status="fulfilled",
+            created_at=utcnow() - timedelta(days=days_ago + 3),
+        )
+        db.session.add(req)
+        db.session.flush()
+
+        db.session.add(Match(
+            request_id=req.id, donor_id=abhi_donor.id, ring=1,
+            distance=round(1.0 + i * 0.4, 1),
+            contacted_at=utcnow() - timedelta(days=days_ago + 3),
+            response="accepted", accepted_at=utcnow() - timedelta(days=days_ago + 2),
+        ))
+        db.session.add(Donation(
+            donor_id=abhi_donor.id, request_id=req.id, confirmed_by=patient.id,
+            donation_date=_days_ago(days_ago), verified=True,
+            created_at=utcnow() - timedelta(days=days_ago),
+        ))
+        abhi_donor.verified_donation_count += 1
+
+    # ---- the one time Abhi needed blood himself, about eight months ago ----
+    helper_user = User(
+        name="Ravi Kumar", email="ravi.kumar@blooddonor.test", phone="9000008999",
+        password_hash=hash_password(PASSWORD), role="donor",
+        created_at=utcnow() - timedelta(days=400),
+    )
+    db.session.add(helper_user)
+    db.session.flush()
+    h_lat, h_lng = _at(1.6, 1.1)
+    helper_donor = Donor(
+        user_id=helper_user.id, blood_group="O+", gender="male",
+        city="Visakhapatnam", locality="Dwaraka Nagar",
+        latitude=h_lat, longitude=h_lng, available=True,
+        last_donation_date=_days_ago(240), verified_donation_count=1,
+    )
+    helper_donor.recompute_profile_complete()
+    db.session.add(helper_donor)
+    db.session.flush()
+
+    abhi_request = BloodRequest(
+        requester_id=abhi_user.id, blood_group="O+", units=1,
+        hospital="Care Hospitals, Ram Nagar", city="Visakhapatnam",
+        location="Ram Nagar", latitude=lat, longitude=lng,
+        urgency="urgent", status="fulfilled",
+        additional_message="Needed ahead of a minor surgery.",
+        created_at=utcnow() - timedelta(days=245),
+    )
+    db.session.add(abhi_request)
+    db.session.flush()
+
+    db.session.add(Match(
+        request_id=abhi_request.id, donor_id=helper_donor.id, ring=1, distance=1.8,
+        contacted_at=utcnow() - timedelta(days=245),
+        response="accepted", accepted_at=utcnow() - timedelta(days=244, hours=20),
+    ))
+    db.session.add(Donation(
+        donor_id=helper_donor.id, request_id=abhi_request.id, confirmed_by=abhi_user.id,
+        donation_date=_days_ago(243), verified=True,
+        created_at=utcnow() - timedelta(days=243),
+    ))
+    db.session.commit()
+
+    notif.notify(abhi_user.id, title="You can donate again",
+                 message="Your waiting period is over - you're eligible to donate.",
+                 type="eligibility", link="/dashboard.html", commit=False)
+    notif.notify(abhi_user.id, title="Thank you for your 6th donation",
+                 message="Your generosity has now helped 6 people. You're a "
+                         "verified, trusted donor on Blood Donor Connector.",
+                 type="fulfilled", link="/dashboard.html", commit=False)
+    db.session.commit()
+
+
 def populate(*, reset: bool = False) -> dict:
     """Build the full demo dataset. Must be called inside an app context.
 
@@ -303,6 +424,7 @@ def populate(*, reset: bool = False) -> dict:
 
     users = build_users_and_donors()
     build_history(users)
+    build_flagship_persona()
     build_requests(users)
     build_notifications(users)
 
