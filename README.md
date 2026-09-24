@@ -269,3 +269,7 @@ Validation errors return `{ success:false, errors:{ field: message } }`.
   single hook to add real SMS/email later.
 * This is a student / portfolio project and is **not affiliated with any real
   blood bank**.
+
+---
+
+© 2026 Kantapalli Sobhana Aishwarya. All rights reserved. Shared for portfolio viewing; please ask before reusing.
