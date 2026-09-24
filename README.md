@@ -100,7 +100,7 @@ immediately with no manual steps.
 
 ---
 
-## Demoing this in an interview
+## Suggested walkthrough
 
 A good walkthrough shows **both** ends of the product:
 
