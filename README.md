@@ -2,8 +2,6 @@
 
 ### “Right donor. Right place. Right time.”
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/SobhanaAishwarya/blood-donor-connector)
-
 An **intelligent emergency blood-matching system** - not a directory of donors.
 It works out *who can actually help today*, contacts the **nearest eligible
 people first**, expands the search **ring by ring**, and keeps everyone's
